@@ -1,0 +1,41 @@
+<div id="login">
+  <div id='singup'>
+    <h2>Sign up</h2>
+    <%= form_for @user do |f| %>
+      <div>
+        <%= f.label :first_name %><br>
+        <%= f.text_field :first_name %>
+      </div>
+      <div>
+        <%= f.label :last_name %><br>
+        <%= f.text_field :last_name %>
+      </div>
+      <div>
+        <%= f.label :email %><br>
+        <%= f.email_field :email %>
+      </div>
+      <div>
+        <%= f.label :password %><br>
+        <%= f.password_field :password %>
+      </div>
+      <div>
+        <%= f.submit "Sign up" %>
+      </div>
+    <% end %>
+  </div>
+  <div id='signin'>
+    <h2>Sign in</h2>
+    <%= form_tag({controller: "sessions", action: "create"}, method: "put") %>
+      <div>
+        <%= label_tag :email %><br>
+        <%= email_field_tag :email %>
+      </div>
+      <div>
+        <%= label_tag :password %><br>
+        <%= password_field_tag :password %>
+      </div>
+      <div>
+        <%= submit_tag "Sign in" %>
+      </div>
+  </div>
+</div>
