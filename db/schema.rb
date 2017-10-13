@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20171013091734) do
     t.string "provider"
     t.string "uid"
     t.string "oauth_token"
-    t.integer "role"
+    t.integer "role", default: 0
   end
 
 end
