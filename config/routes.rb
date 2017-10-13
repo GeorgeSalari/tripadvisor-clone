@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   root "welcome#index"
   resources :users, except: [:index, :destroy, :new]
   put 'sign_in' => 'sessions#create', as: :sign_in
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
   delete 'log_out' => 'sessions#destroy', as: :log_out
 end

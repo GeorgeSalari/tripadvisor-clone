@@ -1,27 +1,35 @@
 <div id="login">
   <div id='singup'>
     <h2>Sign up</h2>
-    <%= form_for @user do |f| %>
-      <div>
-        <%= f.label :first_name %><br>
-        <%= f.text_field :first_name %>
-      </div>
-      <div>
-        <%= f.label :last_name %><br>
-        <%= f.text_field :last_name %>
-      </div>
-      <div>
-        <%= f.label :email %><br>
-        <%= f.email_field :email %>
-      </div>
-      <div>
-        <%= f.label :password %><br>
-        <%= f.password_field :password %>
-      </div>
-      <div>
-        <%= f.submit "Sign up" %>
-      </div>
-    <% end %>
+    <div>
+      <%= form_for @user do |f| %>
+        <div>
+          <%= f.label :first_name %><br>
+          <%= f.text_field :first_name %>
+        </div>
+        <div>
+          <%= f.label :last_name %><br>
+          <%= f.text_field :last_name %>
+        </div>
+        <div>
+          <%= f.label :email %><br>
+          <%= f.email_field :email %>
+        </div>
+        <div>
+          <%= f.label :password %><br>
+          <%= f.password_field :password %>
+        </div>
+        <div>
+          <%= f.submit "Sign up" %>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <h3>OR</h3>
+      <button id='google_sign_in' >
+        <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+      </button>
+    </div>
   </div>
   <div id='signin'>
     <h2>Sign in</h2>
