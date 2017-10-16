@@ -9,6 +9,13 @@
   </head>
 
   <body>
+    <div id="nav_bar">
+      <h2>
+        <%= link_to "Tripadvisor Clone", root_path %>
+      </h2>
+      <%= button_tag "Flights" %>
+      <%= button_tag "Join", id: "join"%>
+    </div>
     <div id="flash">
       <% flash.each do |key, value| -%>
         <div class="alert alert-<%= key %>"><%=h value %></div>
