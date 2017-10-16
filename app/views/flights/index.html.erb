@@ -1,5 +1,20 @@
-HELLO
-<%= form_tag "/flight_respons" do %>
-  <%= text_field_tag :flight %>
-  <%= submit_tag "Search" %>
-<% end %>
+<div>
+  <h1>Find the best flight and save your money</h1>
+  <%= form_tag "/flight_respons" do %>
+    <%= text_field_tag :origin, nil, {placeholder: "KUL"} %>
+    <%= text_field_tag :destination, nil, {placeholder: "HKT"}  %>
+    <%= date_field_tag :date, nil, {placeholder: "Date of flight"} %>
+    <%= text_field_tag :preferredCabin, nil, {placeholder: "COACH, PREMIUM_COACH, BUSINESS, FIRST"} %>
+    <%= number_field_tag :maxStops, nil, {placeholder: "Max stops"} %>
+    <%= number_field_tag :maxConnectionDuration, nil, {placeholder: "Max Connection Duration"} %>
+    <%= number_field_tag :adultCount, 1, {placeholder: "Adult"} %>
+    <%= number_field_tag :seniorCount, 0, {placeholder: "Senior"} %>
+    <%= number_field_tag :childCount, 0, {placeholder: "Child"} %>
+    <%= number_field_tag :infantInLapCount, 0, {placeholder: "Infant"} %>
+    <%= number_field_tag :infantInSeatCount, 0, {placeholder: "Seat for infant"} %>
+    <%= label_tag :refundable %>
+    <%= check_box_tag :refundable %>
+    <%= number_field_tag :solutions, 20, {placeholder: "Result"} %>
+    <%= submit_tag "Find flights" %>
+  <% end %>
+</div>
