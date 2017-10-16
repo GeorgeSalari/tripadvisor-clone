@@ -1,8 +1,12 @@
 class FlightsController < ApplicationController
   include UsersHelper
+  def index
+
+  end
+
   def google_api_respons
-      resp = send_request
-      byebug
+    byebug
+    resp = send_request1
   end
 
   def send_request

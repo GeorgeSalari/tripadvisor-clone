@@ -30,8 +30,20 @@ html,body {
   font-size: 20px;
   height: 100%;
   width: 100px;
+  border: 2px solid #BABABA;
+  background-color: #f3f3f3;
+  border-style: outset;
 }
 
 
-#nav_bar button#join{
+#nav_bar form input{
+  width: 100px;
+  height: 60px;
+  background: #f3f3f3;
+  border-style: outset;
+  font-size: 20px;
+}
+
+.outset_button {
+  border-style: outset;
 }
