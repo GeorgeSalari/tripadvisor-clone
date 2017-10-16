@@ -5,11 +5,10 @@ class FlightsController < ApplicationController
   end
 
   def google_api_respons
-    resp = send_request(params)
+    @resp = send_request(params)
   end
 
   def send_request(params)
-    byebug
     results = RestClient.post "https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV[""]}", {
       "request": {
         "passengers": {
@@ -26,9 +25,9 @@ class FlightsController < ApplicationController
             "origin": params[:origin],
             "destination": params[:destination],
             "date": params[:date].to_date,
-            "maxStops": params[:maxStops].to_i || 10,
-            "maxConnectionDuration": params[:maxConnectionDuration].to_i || 24,
-            "preferredCabin": params[:preserredCabin] || "",
+            "maxStops": params[:maxStops].to_i,
+            "maxConnectionDuration": params[:maxConnectionDuration].to_i,
+            "preferredCabin": params[:preserredCabin],
             "permittedDepartureTime": {
               "kind": "qpxexpress#timeOfDayRange",
               "earliestTime": "",
@@ -46,7 +45,7 @@ class FlightsController < ApplicationController
         "maxPrice": "",
         "saleCountry": "",
         "ticketingCountry": "",
-        "refundable": params[:refundable].to_i == 1 ,
+        "refundable": params[:refundable] == "true" ? true : false,
         "solutions": params[:solutions].to_i
       }
     }.to_json, {content_type: :json, accept: :json}
