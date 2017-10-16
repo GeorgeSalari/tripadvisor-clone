@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create_google'
   get 'auth/failure', to: redirect('/')
   delete 'log_out' => 'sessions#destroy', as: :log_out
+  post 'flight_respons' => 'flights#google_api_respons', as: :flight_respons
 end
