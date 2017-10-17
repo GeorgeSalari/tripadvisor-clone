@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $('#search_one_flight').click(function(event){
+    console.log("hi");
     event.preventDefault();
     $.ajax({
       url: "/flight_respons",
@@ -20,10 +21,12 @@ $(document).ready(function(){
         solutions: $('#solutions').val()
       }),
       contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-      success: function(){
+      success: function(data){
+        debugger
         $('#search_form_one_flight').addClass('hidden');
         $('#search_result_one_flight').removeClass('hidden');
       }
+
     })
   })
 })

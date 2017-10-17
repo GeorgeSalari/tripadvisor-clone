@@ -1,6 +1,6 @@
 <div id="search_form_one_flight">
   <h1>Find the best flight and save your money</h1>
-  <%= form_tag "/flight_respons" do %>
+  <%= form_tag "/flight_respons", remote: :true do %>
     <%= text_field_tag :origin, nil, {placeholder: "KUL", id: "origin"} %>
     <%= text_field_tag :destination, nil, {placeholder: "HKT", id: "destination"}  %>
     <%= date_field_tag :date, nil, {placeholder: "Date of flight", id: "date"} %>
@@ -17,4 +17,8 @@
     <%= number_field_tag :solutions, 20, {placeholder: "Result", id: "solutions"} %>
     <%= submit_tag "Find flights", id: "search_one_flight" %>
   <% end %>
+</div>
+
+<div id="" class='hidden'>
+
 </div>

@@ -6,6 +6,9 @@ class FlightsController < ApplicationController
 
   def google_api_respons
     @resp = send_request(params)
+    respond_to do |format|
+      format.json { render json: @resp.body }
+    end
   end
 
   def send_request(params)
