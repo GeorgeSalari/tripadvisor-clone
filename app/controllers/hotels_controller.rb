@@ -1,4 +1,5 @@
 class HotelsController < ApplicationController
+  include UsersHelper
   def index
     @hotels = Hotel.all.limit(16)
     @user = User.new
@@ -40,7 +41,7 @@ class HotelsController < ApplicationController
   def update
     @hotel = Hotel.find(params[:id])
     user = User.find(@hotel.user_id)
-    if user.owner?
+    if user.id == current_user.id
       if @hotel.update(hotel_params)
         flash[:succes] = "You edit hotel!"
         redirect_to hotel_path(@hotel)
