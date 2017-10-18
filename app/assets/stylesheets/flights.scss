@@ -9,3 +9,132 @@
   width: 80%;
   margin: 10px auto;
 }
+
+.details{
+  grid-column: 1/span 3
+}
+
+.details h2 {
+  text-align: center;
+}
+
+#spiner_div {
+  width:50%;
+  text-align: center;
+  margin: auto;
+}
+
+#search_one_flight:hover {
+  background-color: #808080;
+}
+
+#search_form_one_flight h1 {
+  text-align: center;
+  font-size: 50px;
+  margin: 100px 0;
+}
+
+#search_form_one_flight form {
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+
+#search_result_one_flight > h1 {
+  text-align: center;
+}
+
+#search_result_one_flight {
+  margin-top:100px;
+}
+
+#search_form_one_flight form {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 50% 50%;
+}
+
+#search_form_one_flight form div p{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  padding-top: 3px;
+  font-size: 20px;
+}
+
+#search_form_one_flight form input{
+  width: 80%;
+  border-radius: 25px;
+  padding: 10px 0 10px 30px;
+  font-size: 20px;
+  border: 2px solid #808080;
+  border-style: outset;
+}
+
+#search_form_one_flight form input.text{
+  padding: 14px 0 14px 30px;
+  width: 85%;
+}
+
+#search_form_one_flight form input.date{
+  padding: 11px 0 11px 30px;
+  width: 84%;
+  margin-right: 5px;
+}
+
+#search_form_one_flight form input#search_one_flight {
+  margin: 20px auto;
+  width:50%;
+  padding-left: 10px;
+  grid-column: 1/span 4;
+}
+
+#search_form_one_flight form div.dropdown {
+  padding: 0;
+  margin: 0;
+  border: 2px solid #808080;
+  position: relative;
+  display: inline-block;
+  border-radius: 25px;
+  padding: 10px 0;
+  border-style: outset;
+}
+
+#search_form_one_flight form div.dropdown-content {
+  text-align: left;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 210px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+#search_form_one_flight form div.dropdown-content input {
+  padding: 0 0 0 10px;
+  font-size: 14px;
+  width: 100px;
+}
+
+#search_form_one_flight form div.dropdown-content select{
+  width: 110px;
+  border-radius: 25px;
+}
+
+#search_form_one_flight form div.dropdown:hover .dropdown-content {
+  display: grid;
+  grid-template-rows: 17% 17% 17% 17% 16% 16%;
+  grid-template-columns: 45% 55%;
+}
+
+input:focus {
+    outline: none !important;
+    border-color: #719ECE;
+    box-shadow: 0 0 10px #719ECE;
+}
+textarea:focus {
+    outline: none !important;
+    border-color: #719ECE;
+    box-shadow: 0 0 10px #719ECE;
+}
