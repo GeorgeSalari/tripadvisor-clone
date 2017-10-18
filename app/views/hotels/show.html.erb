@@ -1,4 +1,9 @@
 One Hotel
-<%= @hotel.hotel_name %>
-<br>
+<div id="show_one_hotel">
+  <div id="image">
+    <%= link_to image_tag('hotel_img.jpg'), hotel_path(@hotel) %>
+  </div>
+  <h3><%= link_to @hotel.hotel_name, hotel_path(@hotel) %></h3>
+  <p><%= "#{@hotel.country}, #{@hotel.city}" %></p>
+</div>
 <%= link_to "Edit", edit_hotel_path(@hotel) %>

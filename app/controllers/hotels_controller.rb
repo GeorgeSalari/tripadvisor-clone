@@ -18,12 +18,15 @@ class HotelsController < ApplicationController
 
   def create
     @hotel = Hotel.new(hotel_params)
-    if @hotel.save
-      flash[:succes] = "You add a hotel!"
-      redirect_to hotel_path(@hotel)
-    else
-      flash.now[:error] = "#{@hotel.errors.messages}"
-      render template: "hotels/new"
+    user = User.find(@hotel.user_id)
+    if user.owner?
+      if @hotel.save
+        flash[:succes] = "You add a hotel!"
+        redirect_to hotel_path(@hotel)
+      else
+        flash.now[:error] = "#{@hotel.errors.messages}"
+        render template: "hotels/new"
+      end
     end
   end
 
@@ -33,12 +36,15 @@ class HotelsController < ApplicationController
 
   def update
     @hotel = Hotel.find(params[:id])
-    if @hotel.update(hotel_params)
-      flash[:succes] = "You edit hotel!"
-      redirect_to hotel_path(@hotel)
-    else
-      flash.now[:error] = "#{@hotel.errors.messages}"
-      render template: "hotels/edit"
+    user = User.find(@hotel.user_id)
+    if user.owner?
+      if @hotel.update(hotel_params)
+        flash[:succes] = "You edit hotel!"
+        redirect_to hotel_path(@hotel)
+      else
+        flash.now[:error] = "#{@hotel.errors.messages}"
+        render template: "hotels/edit"
+      end
     end
   end
 
