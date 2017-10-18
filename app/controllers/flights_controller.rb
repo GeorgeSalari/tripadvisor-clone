@@ -12,7 +12,7 @@ class FlightsController < ApplicationController
   end
 
   def send_request(params)
-    results = RestClient.post "https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV[""]}", {
+    results = RestClient.post "https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_API_KEY"]}", {
       "request": {
         "passengers": {
           "kind": "qpxexpress#passengerCounts",
@@ -28,8 +28,8 @@ class FlightsController < ApplicationController
             "origin": params[:origin],
             "destination": params[:destination],
             "date": params[:date].to_date,
-            "maxStops": params[:maxStops].to_i,
-            "maxConnectionDuration": params[:maxConnectionDuration].to_i,
+            "maxStops": 20,
+            "maxConnectionDuration": 4320,
             "preferredCabin": params[:preserredCabin],
             "permittedDepartureTime": {
               "kind": "qpxexpress#timeOfDayRange",

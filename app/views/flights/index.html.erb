@@ -5,8 +5,6 @@
     <%= text_field_tag :destination, nil, {placeholder: "HKT", id: "destination"}  %>
     <%= date_field_tag :date, nil, {placeholder: "Date of flight", id: "date"} %>
     <%= text_field_tag :preferredCabin, nil, {placeholder: "COACH, PREMIUM_COACH, BUSINESS, FIRST", id: "preferredCabin"} %>
-    <%= number_field_tag :maxStops, nil, {placeholder: "Max stops", id: "maxStops"} %>
-    <%= number_field_tag :maxConnectionDuration, nil, {placeholder: "Max Connection Duration", id: "maxConnectionDuration"} %>
     <%= number_field_tag :adultCount, 1, {placeholder: "Adult", id: "adultCount"} %>
     <%= number_field_tag :seniorCount, 0, {placeholder: "Senior", id: "seniorCount"} %>
     <%= number_field_tag :childCount, 0, {placeholder: "Child", id: "childCount"} %>
@@ -19,6 +17,6 @@
   <% end %>
 </div>
 
-<div id="" class='hidden'>
+<div id="search_result_one_flight" class='hidden'>
 
 </div>
