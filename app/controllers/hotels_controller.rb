@@ -27,6 +27,9 @@ class HotelsController < ApplicationController
         flash.now[:error] = "#{@hotel.errors.messages}"
         render template: "hotels/new"
       end
+    else
+      flash[:error] = "You can't add hotel! Only owner can!"
+      redirect_to root_path
     end
   end
 
@@ -45,6 +48,9 @@ class HotelsController < ApplicationController
         flash.now[:error] = "#{@hotel.errors.messages}"
         render template: "hotels/edit"
       end
+      else
+      flash[:error] = "You can't update hotel! Only owner can!"
+      redirect_to root_path
     end
   end
 
