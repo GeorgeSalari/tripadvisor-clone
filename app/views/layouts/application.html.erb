@@ -3,12 +3,32 @@
   <head>
     <title>TripadvisorClone</title>
     <%= csrf_meta_tags %>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js">
+    </script>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <div id="nav_bar">
+      <h2>
+        <%= link_to "Tripadvisor Clone", root_path %>
+      </h2>
+      <%= button_to "Flights", flights_index_path, method: :get%>
+      <% if current_user %>
+        <%= button_to "Profile", user_path(current_user), method: :get%>
+      <% else %>
+        <%= button_tag "Join", id: "join"%>
+      <% end %>
+    </div>
     <div id="flash">
       <% flash.each do |key, value| -%>
         <div class="alert alert-<%= key %>"><%=h value %></div>

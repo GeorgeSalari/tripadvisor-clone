@@ -1,0 +1,202 @@
+function calc_time(total_time){
+  days = 0;
+  hours = 0;
+  minutes = 0;
+  flight_duration = 0;
+  while (total_time > 0) {
+    if (total_time >= 1440) {
+      days = Math.floor(total_time / 60 / 24);
+      total_time -= days * 24 * 60;
+    } else if (total_time > 60) {
+      hours = Math.floor(total_time / 60);
+      total_time -= hours * 60;
+    } else {
+      minutes = total_time;
+      total_time -= minutes;
+    };
+  };
+  if (days > 0 && hours > 0 && minutes > 0){
+    flight_duration = days+"d "+hours+"h "+minutes+"m";
+  } else if (days > 0 && minutes > 0) {
+    flight_duration = days+"d 0h "+minutes+"m";
+  } else if (days > 0 && hours > 0) {
+    flight_duration = days+"d "+hours+"h 0m";
+  } else if (days > 0) {
+    flight_duration = days+"d 0h 0m";
+  } else if (hours > 0 && minutes > 0) {
+    flight_duration = hours+"h "+minutes+"m";
+  } else if (minutes > 0) {
+    flight_duration = minutes+"m";
+  };
+  return flight_duration
+}
+
+$(document).ready(function(){
+  $('#search_one_flight').click(function(event){
+    console.log("hi");
+    event.preventDefault();
+    $('#search_one_flight').attr('disabled','disabled');
+    $('#search_form_one_flight').append('<div id="spiner_div"><p>Please whait </p><%= image_tag("gif-aviao.gif")%></div>');
+    $.ajax({
+      url: "/flight_respons",
+      method: 'post',
+      data: jQuery.param({
+        origin: $('#origin').val(),
+        destination: $('#destination').val(),
+        date: $('#date').val(),
+        preferredCabin: $('#preferredCabin').val(),
+        adultCount: $('#adultCount').val(),
+        seniorCount: $('#seniorCount').val(),
+        childCount: $('#childCount').val(),
+        infantInLapCount: $('#infantInLapCount').val(),
+        infantInSeatCount: $('#infantInSeatCount').val(),
+        refundable: $('#refundable').is(':checked'),
+        solutions: $('#solutions').val()
+      }),
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(data){
+        if (data.error) {
+
+        } else {
+          $('#search_one_flight').removeAttr('disabled');
+          $('#spiner_div').addClass('hidden');
+          $('#search_result_one_flight').removeClass('hidden');
+          $('#search_result_one_flight').append("<h1>Select your flight:</h1>");
+          carrier_name = {};
+          $.each(data['trips']["data"]['carrier'], function(ind, hash){
+            carrier_name[hash['code']] = hash['name'];
+          });
+          $.each(data['trips']['tripOption'], function(i, h){
+            connection = h['slice'][0]['segment'].length - 1;
+            flight_duration = calc_time(h['slice'][0]['duration']);
+
+            total_price = h['saleTotal'];
+            flight_departure = new Date(h['slice'][0]['segment'][0]['leg'][0]["departureTime"]);
+            flight_departure_time = flight_departure.toLocaleTimeString().slice(0, -3);
+            flight_departure_date = flight_departure.toLocaleDateString();
+            arrival = h['slice'][0]['segment'].slice(-1)[0]
+            flight_arrival = new Date(arrival['leg'][0]['arrivalTime'].slice(0, -6));
+            flight_arrival_time = flight_arrival.toLocaleTimeString().slice(0, -3);
+            flight_arrival_date = flight_arrival.toLocaleDateString();
+            $('#search_result_one_flight').append("<div id='one_result_"+i+"' class='one_result'></div>");
+            $('#one_result_'+i).append("<div id='time_"+i+"'></div>");
+            $('#one_result_'+i).append("<div id='duration_"+i+"'></div>");
+            $('#one_result_'+i).append("<div id='stops_"+i+"'></div>");
+            $('#one_result_'+i).append("<div id='price_"+i+"'></div>");
+            $('#duration_'+i).append("<p>"+flight_duration+"</p>");
+            if (flight_departure_date == flight_arrival_date){
+              $('#time_'+i).append("<p>"+flight_departure_time+" - "+flight_arrival_time+"</p>")
+            } else {
+              day = flight_arrival_date.slice(0, -8) - flight_departure_date.slice(0, -8);
+              $('#time_'+i).append("<p>"+flight_departure_time+" - "+flight_arrival_time+"(+"+day+"d)</p>");
+            }
+            if (connection == 0){
+              stops = "Direct";
+              origin = h['slice'][0]['segment'][0]['leg'][0]["origin"];
+              flight_number = h['slice'][0]['segment'][0]['flight']['number'];
+              carrier_code = h['slice'][0]['segment'][0]['flight']['carrier'];
+              destination = h['slice'][0]['segment'][0]['leg'][0]["destination"];
+              this_carrier_name = carrier_name[carrier_code];
+              $('#time_'+i).append("<p>"+this_carrier_name+"</p>");
+              $('#duration_'+i).append("<p>"+origin+" - "+destination+"</p>");
+              $('#stops_'+i).append("<p>"+stops+"</p><p>"+carrier_code+" "+flight_number+"</p>");
+              $('#price_'+i).append("<p>"+total_price+"</p>");
+            } else if (connection == 1){
+              stops = connection+" stops";
+              origin = h['slice'][0]['segment'][0]['leg'][0]["origin"];
+              all_carrier_code = [];
+              all_carrier_name = "";
+              all_flight_number = "";
+              $('#one_result_'+i).append("<div class='hidden details show_details_"+i+"'></div>");
+              $.each(h['slice'][0]['segment'], function(index, value){
+                if (value['connectionDuration']){
+                  connection_duration = value['connectionDuration'];
+                };
+                all_carrier_code.push(value['flight']['carrier']);
+                if (!all_carrier_name.includes(carrier_name[all_carrier_code[index]])) {
+                  all_carrier_name += carrier_name[all_carrier_code[index]]+", ";
+                };
+                all_flight_number += all_carrier_code[index]+" "+value['flight']['number']+", ";
+                if (index == (h['slice'][0]['segment'].length - 1)){
+                  stop_location = value['leg'][0]['origin'];
+                  final_destination = value['leg'][0]["destination"];
+                  flight_arrival_time_to = new Date(value['leg'][0]["arrivalTime"]).toLocaleTimeString().slice(0, -3);
+                  $('#time_'+i).append("<p>"+all_carrier_name.slice(0, -2)+"</p><br><button class='detail_button' id='show_details_"+i+"'>Show details</button>");
+                  $('#duration_'+i).append("<p>"+origin+" - "+final_destination+"</p>");
+                  $('#stops_'+i).append("<p>"+stops+"</p><p>"+stop_location+"</p>");
+                };
+                start_time = new Date(value['leg'][0]['departureTime']).toLocaleTimeString().slice(0, -3);
+                arr_time = new Date(value['leg'][0]['arrivalTime']).toLocaleTimeString().slice(0, -3);
+                duration = value['leg'][0]['duration'];
+                flight_duration = calc_time(duration);
+                origin = value['leg'][0]['origin']
+                destination = value['leg'][0]['destination']
+                flight = value['flight']['carrier']+" "+value['flight']['number']
+                $('.show_details_'+i).append("<h1>"+start_time+" -> "+arr_time+" : "+flight_duration+"</h1>\
+                  <p>"+origin+" to "+destination+"</p>\
+                  <p>"+flight+"</p>\
+                  ")
+                if (connection_duration){
+                  $('.show_details_'+i).append("<h2><b>Stop: "+calc_time(connection_duration)+"</b> in ("+destination+")</h2>")
+                }
+                connection_duration = undefined
+              });
+              $('#price_'+i).append("<p>"+total_price+"</p>");
+            } else {
+              stops = connection+" stops";
+              origin = h['slice'][0]['segment'][0]['leg'][0]["origin"];
+              all_carrier_code = [];
+              all_carrier_name = "";
+              all_flight_number = "";
+              $('#one_result_'+i).append("<div class='hidden details show_details_"+i+"'></div>");
+              $.each(h['slice'][0]['segment'], function(index, value){
+                if (value['connectionDuration']){
+                  connection_duration = value['connectionDuration'];
+                };
+                all_carrier_code.push(value['flight']['carrier']);
+                if (!all_carrier_name.includes(carrier_name[all_carrier_code[index]])) {
+                  all_carrier_name += carrier_name[all_carrier_code[index]]+", ";
+                };
+                all_flight_number += all_carrier_code[index]+" "+value['flight']['number']+", ";
+                if (index == (h['slice'][0]['segment'].length - 1)){
+                  final_destination = value['leg'][0]["destination"];
+                  flight_arrival_time_to = new Date(value['leg'][0]["arrivalTime"]).toLocaleTimeString().slice(0, -3);
+                  $('#time_'+i).append("<p>"+all_carrier_name.slice(0, -2)+"</p><br><button class='detail_button' id='show_details_"+i+"'>Show details</button>");
+                  $('#duration_'+i).append("<p>"+origin+" - "+final_destination+"</p>");
+                  $('#stops_'+i).append("<p>"+stops+"</p><p>"+all_flight_number.slice(0, -2)+"</p>");
+                };
+                start_time = new Date(value['leg'][0]['departureTime'].slice(0, -6)).toLocaleTimeString().slice(0, -3);
+                arr_time = new Date(value['leg'][0]['arrivalTime'].slice(0, -6)).toLocaleTimeString().slice(0, -3);
+                duration = value['leg'][0]['duration'];
+                flight_duration = calc_time(duration);
+                origin = value['leg'][0]['origin'];
+                destination = value['leg'][0]['destination'];
+                flight = value['flight']['carrier']+" "+value['flight']['number'];
+                $('.show_details_'+i).append("<h1>"+start_time+" -> "+arr_time+" : "+flight_duration+"</h1>\
+                  <p>"+origin+" to "+destination+"</p>\
+                  <p>"+flight+"</p>\
+                  ")
+                if (connection_duration){
+                  $('.show_details_'+i).append("<h2><b>Stop: "+calc_time(connection_duration)+"</b> in ("+destination+")</h2>");
+                }
+                connection_duration = undefined
+              });
+              $('#price_'+i).append("<p>"+total_price+"</p>");
+            }
+          })
+        }
+
+        $(".detail_button").click(function(){
+          div_class = $(this).attr('id');
+          $("."+div_class).toggleClass('hidden');
+          if ($("."+div_class).attr('class').includes('hidden')){
+            $(this).text('Show details');
+          } else {
+            $(this).text('Close details');
+          }
+        })
+      }
+
+    })
+  })
+})

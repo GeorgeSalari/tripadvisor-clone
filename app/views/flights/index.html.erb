@@ -1,0 +1,69 @@
+<div id="search_form_one_flight">
+  <h1>Find the best flight and save your money</h1>
+  <%= form_tag "/flight_respons", remote: :true do %>
+    <div>
+      <%= text_field_tag :origin, nil, {placeholder: "KUL", id: "origin", class: "text"} %>
+    </div>
+    <div>
+      <%= text_field_tag :destination, nil, {placeholder: "HKT", id: "destination", class: "text"}  %>
+    </div>
+    <div>
+      <%= date_field_tag :date, nil, {placeholder: "Date of flight", id: "date", class: "date"} %>
+    </div>
+    <div class="dropdown">
+      <p>1 Person, Economy</p>
+      <div class="dropdown-content">
+        <div>
+          <%= label_tag "Cabin: " %>
+        </div>
+        <div>
+          <%= select_tag :preferredCabin, "<option>COACH</option><option>PREMIUM_COACH</option><option>BUSINESS</option><option>FIRST</option>".html_safe  %>
+        </div>
+        <div>
+          <%= label_tag "Adult(18-64): " %>
+        </div>
+        <div>
+          <%= number_field_tag :adultCount, 1, {placeholder: "Adult", id: "adultCount"} %>
+        </div>
+        <div>
+          <%= label_tag "Senior(65+): " %>
+        </div>
+        <div>
+          <%= number_field_tag :seniorCount, 0, {placeholder: "Senior", id: "seniorCount"} %>
+        </div>
+        <div>
+          <%= label_tag "Child(3-17): " %>
+        </div>
+        <div>
+          <%= number_field_tag :childCount, 0, {placeholder: "Child", id: "childCount"} %>
+        </div>
+        <div>
+          <%= label_tag "Infant(0-2): " %>
+        </div>
+        <div>
+          <%= number_field_tag :infantInLapCount, 0, {placeholder: "Infant", id: "infantInLapCount"} %>
+        </div>
+        <div>
+          <%= label_tag "Infantseat: " %>
+        </div>
+        <div>
+          <%= number_field_tag :infantInSeatCount, 0, {placeholder: "Seat for infant", id: "infantInSeatCount"} %>
+        </div>
+      </div>
+    </div>
+    <div id='advance_search' class='hidden'>
+      <%= label_tag :refundable %>
+      <%= check_box_tag :refundable, 1, false, {id: "refundable"} %>
+      <%= number_field_tag :solutions, 20, {placeholder: "Result", id: "solutions"} %>
+    </div>
+    <%= submit_tag "Find flight", id: "search_one_flight" %>
+  <% end %>
+</div>
+
+<div id="search_result_one_flight" class='hidden'>
+
+</div>
+
+<script>
+  $("#commentForm").validate();
+</script>
