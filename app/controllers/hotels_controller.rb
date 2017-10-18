@@ -1,4 +1,5 @@
 class HotelsController < ApplicationController
+  include UsersHelper
   def index
     @hotels = Hotel.all.limit(16)
     @user = User.new
@@ -18,12 +19,18 @@ class HotelsController < ApplicationController
 
   def create
     @hotel = Hotel.new(hotel_params)
-    if @hotel.save
-      flash[:succes] = "You add a hotel!"
-      redirect_to hotel_path(@hotel)
+    user = User.find(@hotel.user_id)
+    if user.owner?
+      if @hotel.save
+        flash[:succes] = "You add a hotel!"
+        redirect_to hotel_path(@hotel)
+      else
+        flash.now[:error] = "#{@hotel.errors.messages}"
+        render template: "hotels/new"
+      end
     else
-      flash.now[:error] = "#{@hotel.errors.messages}"
-      render template: "hotels/new"
+      flash[:error] = "You can't add hotel! Only owner can!"
+      redirect_to root_path
     end
   end
 
@@ -33,12 +40,18 @@ class HotelsController < ApplicationController
 
   def update
     @hotel = Hotel.find(params[:id])
-    if @hotel.update(hotel_params)
-      flash[:succes] = "You edit hotel!"
-      redirect_to hotel_path(@hotel)
-    else
-      flash.now[:error] = "#{@hotel.errors.messages}"
-      render template: "hotels/edit"
+    user = User.find(@hotel.user_id)
+    if user.id == current_user.id
+      if @hotel.update(hotel_params)
+        flash[:succes] = "You edit hotel!"
+        redirect_to hotel_path(@hotel)
+      else
+        flash.now[:error] = "#{@hotel.errors.messages}"
+        render template: "hotels/edit"
+      end
+      else
+      flash[:error] = "You can't update hotel! Only owner can!"
+      redirect_to root_path
     end
   end
 
