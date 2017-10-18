@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true
-  validates :password, :length => { :minimum => 6 }
+  before_create :password, :length => { :minimum => 6 }
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
       user.provider = auth.provider

@@ -6,4 +6,8 @@
 
 <h1>Hello <%= @user.first_name %></h1>
 
-<%= link_to "search", flight_respons_path, method: :post%>
+<% if logged_in? %>
+  <% if current_user.owner? %>
+    <%= link_to "Add hotel", new_hotel_path %>
+  <% end %>
+<% end %>

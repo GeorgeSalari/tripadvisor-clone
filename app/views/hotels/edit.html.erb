@@ -1,0 +1,8 @@
+<%= form_for @hotel do |form| %>
+  <%= render partial: '/hotels/form', object: form %>
+  <%= form.hidden_field :user_id, :value => current_user.id %>
+  <div class="submit-field">
+    <%= form.submit "Edit" %>
+  </div>
+
+<% end %>
