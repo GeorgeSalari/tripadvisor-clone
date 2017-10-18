@@ -28,17 +28,26 @@
   background-color: #808080;
 }
 
+#search_form_one_flight{
+  background-image: url(flight_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 #search_form_one_flight h1 {
   text-align: center;
   font-size: 50px;
-  margin: 100px 0;
+  margin: 0 0 100px 0;
+  padding-top: 100px;
 }
 
 #search_form_one_flight form {
   text-align: center;
   width: 80%;
   margin: auto;
+  padding-bottom: 100px;
 }
+
 
 #search_result_one_flight > h1 {
   text-align: center;
@@ -96,8 +105,9 @@
   position: relative;
   display: inline-block;
   border-radius: 25px;
-  padding: 10px 0;
+  padding: 12px 0;
   border-style: outset;
+  background-color: white;
 }
 
 #search_form_one_flight form div.dropdown-content {
@@ -123,6 +133,8 @@
 }
 
 #search_form_one_flight form div.dropdown:hover .dropdown-content {
+  margin-left: 20px;
+  margin-top: 15px;
   display: grid;
   grid-template-rows: 17% 17% 17% 17% 16% 16%;
   grid-template-columns: 45% 55%;

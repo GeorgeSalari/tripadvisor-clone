@@ -13,3 +13,10 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function(){
+  $('#join').click(function(){
+    $("#sign_form").toggleClass('dropdown-content');
+    $("#sign_form").toggleClass('open_dropdown_content');
+  })
+})

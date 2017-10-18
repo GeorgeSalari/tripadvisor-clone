@@ -34,6 +34,7 @@ gem 'figaro'
 gem 'rest-client'
 gem "oauth2"
 gem "oauth"
+gem 'faker'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

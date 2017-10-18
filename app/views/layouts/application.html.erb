@@ -8,10 +8,6 @@
       integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
       crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js">
-    </script>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -22,11 +18,70 @@
       <h2>
         <%= link_to "Tripadvisor Clone", root_path %>
       </h2>
+      <%= button_to "Hotels", hotels_path, method: :get%>
       <%= button_to "Flights", flights_index_path, method: :get%>
       <% if current_user %>
         <%= button_to "Profile", user_path(current_user), method: :get%>
       <% else %>
-        <%= button_tag "Join", id: "join"%>
+        <div class="dropdown" style="float:right;">
+          <%= button_tag "Join", {id: "join", class: "dropbtn" }%>
+          <div class="dropdown-content" id="sign_form">
+            <div id="sign_up">
+              <div>
+                <h2>Sign up</h2>
+              </div>
+              <div>
+                <%= form_for(:user, :url => url_for(:controller => "users", :action => "create")) do |f| %>
+                  <div>
+                    <%= f.label :first_name %><br>
+                    <%= f.text_field :first_name %>
+                  </div>
+                  <div>
+                    <%= f.label :last_name %><br>
+                    <%= f.text_field :last_name %>
+                  </div>
+                  <div>
+                    <%= f.label :email %><br>
+                    <%= f.email_field :email %>
+                  </div>
+                  <div>
+                    <%= f.label :password %><br>
+                    <%= f.password_field :password %>
+                  </div>
+                  <div>
+                    <%= f.submit "Sign up", {id: "normal_sign_up", class: "sign_submit" }%>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div id="sign_in">
+              <div>
+                <h2>Sign in</h2>
+              </div>
+              <div>
+                <%= form_for(:sessions, :url => url_for(:controller => "sessions", :action => "create"), html: {id: "sign_in_form"} ) do |f| -%>
+                  <div>
+                    <%= f.label :email %><br>
+                    <%= f.email_field :email %>
+                  </div>
+                  <div>
+                    <%= f.label :password %><br>
+                    <%= f.password_field :password %>
+                  </div>
+                  <div>
+                    <%= f.submit "Sign in", {id: "normal_sign_in", class: "sign_submit"} %>
+                  </div>
+                <% end %>
+              </div>
+              <div id="google_sign_in_div">
+                <h3>OR</h3>
+                <button id='google_sign_in' class="sign_submit">
+                  <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       <% end %>
     </div>
     <div id="flash">

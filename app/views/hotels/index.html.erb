@@ -1,0 +1,56 @@
+<div id="search_hotel">
+  <h1>Find the lowest price on the right hotel for you.</h1>
+  <%= form_tag hotels_search_path do %>
+    <div>
+      <%= text_field_tag :search, nil, {placeholder: "City or hotel name", id: "search", class: "text"} %>
+    </div>
+    <div>
+      <%= date_field_tag :date, nil, {id: "date_check_in", class: "date"} %>
+    </div>
+    <div class="dropdown" id="hotel_dropdown">
+      <p>1 Room, 1 Guest</p>
+      <div class="dropdown-content" id='hotel_dropdown_content'>
+        <div>
+          <%= label_tag "Room: " %>
+        </div>
+        <div>
+          <%= number_field_tag :room, 1, {id: "room"} %>
+        </div>
+        <div>
+          <%= label_tag "Adult: " %>
+        </div>
+        <div>
+          <%= number_field_tag :adultCount, 1, {id: "adultCount_hotel"} %>
+        </div>
+        <div>
+          <%= label_tag "Child(3-17): " %>
+        </div>
+        <div>
+          <%= number_field_tag :childCount, 0, {id: "childCount_hotel"} %>
+        </div>
+        <div>
+          <%= label_tag "Infant(0-2): " %>
+        </div>
+        <div>
+          <%= number_field_tag :infantInLapCount, 0, {id: "infantInLapCount_hotel"} %>
+        </div>
+      </div>
+    </div>
+    <%= submit_tag "Find hotels", id: "search_one_hotel" %>
+  <% end %>
+</div>
+
+<div id="all_hotel">
+  <% @hotels.each do |hotel| %>
+    <div id="show_one_hotel">
+      <div id="image">
+        <%= link_to image_tag('hotel_img.jpg'), hotel_path(hotel) %>
+      </div>
+      <h3><%= link_to hotel.hotel_name, hotel_path(hotel) %></h3>
+      <p><%= "#{hotel.country}, #{hotel.city}" %></p>
+    </div>
+  <% end %>
+</div>
+
+
+
