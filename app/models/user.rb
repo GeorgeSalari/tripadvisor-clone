@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   enum role: [ :customers, :owner ]
   has_secure_password
-  validates :password, :length => { :minimum => 6 }
+  validates :password, :length => { :minimum => 6 }, allow_blank: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: /\w+@\w+\.{1}[a-zA-Z]{2,}/, message: "incorect email"}
