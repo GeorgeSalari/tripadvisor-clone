@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       redirect_to user_path(@user)
     else
       flash.now[:error] = "#{@user.errors.messages}"
-      render template: "welcome/index"
+      redirect_to "hotels/index"
     end
   end
 
