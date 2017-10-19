@@ -66,7 +66,6 @@ group :production do
     # Heroku
     # ==================
     gem 'rails_12factor' # Heroku Gem Supports
-    gem 'puma' # Using puma for
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
