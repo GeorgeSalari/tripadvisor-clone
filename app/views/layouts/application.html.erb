@@ -24,7 +24,7 @@
         <%= button_to "Profile", user_path(current_user), method: :get%>
       <% else %>
         <div class="dropdown" style="float:right;">
-          <%= button_tag "Join", {id: "join", class: "dropbtn" }%>
+          <%= button_tag "Join", {id: "join_button", class: "dropbtn", type: "button" }%>
           <div class="dropdown-content" id="sign_form">
             <div id="sign_up">
               <div>
