@@ -11,7 +11,7 @@
       <%= date_field_tag :date, nil, {placeholder: "Date of flight", id: "date", class: "date"} %>
     </div>
     <div class="dropdown">
-      <p>1 Person, Economy</p>
+      <p id="total_count_flight">1 Person, Economy</p>
       <div class="dropdown-content">
         <div>
           <%= label_tag "Cabin: " %>
@@ -22,32 +22,42 @@
         <div>
           <%= label_tag "Adult(18-64): " %>
         </div>
-        <div>
-          <%= number_field_tag :adultCount, 1, {placeholder: "Adult", id: "adultCount"} %>
+        <div id="adult_count_flight">
+          <%= number_field_tag :adultCount, 1, {placeholder: "Adult", id: "adultCount", disabled: "disabled" } %>
+          <div class="minus adult">-</div>
+          <div class="plus adult">+</div>
         </div>
         <div>
           <%= label_tag "Senior(65+): " %>
         </div>
         <div>
-          <%= number_field_tag :seniorCount, 0, {placeholder: "Senior", id: "seniorCount"} %>
+          <%= number_field_tag :seniorCount, 0, {placeholder: "Senior", id: "seniorCount", disabled: "disabled"} %>
+          <div class="minus senior">-</div>
+          <div class="plus senior">+</div>
         </div>
         <div>
           <%= label_tag "Child(3-17): " %>
         </div>
         <div>
-          <%= number_field_tag :childCount, 0, {placeholder: "Child", id: "childCount"} %>
+          <%= number_field_tag :childCount, 0, {placeholder: "Child", id: "childCount", disabled: "disabled"} %>
+          <div class="minus child">-</div>
+          <div class="plus child">+</div>
         </div>
         <div>
           <%= label_tag "Infant(0-2): " %>
         </div>
         <div>
-          <%= number_field_tag :infantInLapCount, 0, {placeholder: "Infant", id: "infantInLapCount"} %>
+          <%= number_field_tag :infantInLapCount, 0, {placeholder: "Infant", id: "infantInLapCount", disabled: "disabled"} %>
+          <div class="minus infant">-</div>
+          <div class="plus infant">+</div>
         </div>
         <div>
           <%= label_tag "Infantseat: " %>
         </div>
         <div>
-          <%= number_field_tag :infantInSeatCount, 0, {placeholder: "Seat for infant", id: "infantInSeatCount"} %>
+          <%= number_field_tag :infantInSeatCount, 0, {placeholder: "Seat for infant", id: "infantInSeatCount", disabled: "disabled"} %>
+          <div class="minus infantseat">-</div>
+          <div class="plus infantseat">+</div>
         </div>
       </div>
     </div>
@@ -63,3 +73,209 @@
 <div id="search_result_one_flight" class='hidden'>
 
 </div>
+
+<script>
+  $(document).ready(function() {
+    if ($('#infantInSeatCount').val() == 0){
+      $(".minus.infantseat").addClass("disabledbutton");
+    } else {
+      $('.minus.infantseat').removeClass("disabledbutton")
+    };
+    if ($('#infantInLapCount').val() == 0){
+      $(".minus.infant").addClass("disabledbutton");
+    } else {
+      $('.minus.infant').removeClass("disabledbutton")
+    };
+    if ($('#childCount').val() == 0){
+      $(".minus.child").addClass("disabledbutton");
+    } else {
+      $('.minus.child').removeClass("disabledbutton")
+    };
+    if ($('#seniorCount').val() == 0){
+      $(".minus.senior").addClass("disabledbutton");
+    } else {
+      $('.minus.senior').removeClass("disabledbutton")
+    };
+    if ($('#adultCount').val() == 1){
+      $(".minus.adult").addClass("disabledbutton");
+    } else {
+      $('.minus.adult').removeClass("disabledbutton")
+    };
+    $('.minus').click(function(e) {
+      jsLang = $(this).attr('class')
+      switch (jsLang) {
+        case 'minus adult':
+          $.ajax({
+            success: function(data) {
+              value = $('#adultCount').val();
+              value = parseInt(value) - 1;
+              $('#adultCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value -= 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              if (value == 1){
+                $('.minus.adult').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+        case 'minus senior':
+          $.ajax({
+            success: function(data) {
+              value = $('#seniorCount').val();
+              value = parseInt(value) - 1;
+              $('#seniorCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value -= 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              if (value == 0){
+                $('.minus.senior').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+        case 'minus child':
+          $.ajax({
+            success: function(data) {
+              value = $('#childCount').val();
+              value = parseInt(value) - 1;
+              $('#childCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value -= 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              if (value == 0){
+                $('.minus.child').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+        case 'minus infant':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInLapCount').val();
+              value = parseInt(value) - 1;
+              total_value = parseInt($('#total_count_flight').text());
+              total_value -= 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              $('#infantInLapCount').val(value);
+              if (value == 0){
+                $('.minus.infant').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+        case 'minus infantseat':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInSeatCount').val();
+              value = parseInt(value) - 1;
+              $('#infantInSeatCount').val(value);
+              if (value == 0){
+                $('.minus.infantseat').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+      }
+    }),
+    $('.plus').click(function(e) {
+      jsLang = $(this).attr('class')
+      switch (jsLang) {
+        case 'plus adult':
+          $.ajax({
+            success: function(data) {
+              value = $('#adultCount').val();
+              value = parseInt(value) + 1;
+              $('#adultCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value += 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              $('.minus.adult').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus senior':
+          $.ajax({
+            success: function(data) {
+              value = $('#seniorCount').val();
+              value = parseInt(value) + 1;
+              $('#seniorCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value += 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              $('.minus.senior').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus child':
+          $.ajax({
+            success: function(data) {
+              value = $('#childCount').val();
+              value = parseInt(value) + 1;
+              $('#childCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value += 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              $('.minus.child').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus infant':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInLapCount').val();
+              value = parseInt(value) + 1;
+              $('#infantInLapCount').val(value);
+              total_value = parseInt($('#total_count_flight').text());
+              total_value += 1
+              if (total_value == 1){
+                $('#total_count_flight').text(total_value+" Person, Economy");
+              } else {
+                $('#total_count_flight').text(total_value+" People, Economy");
+              }
+              $('.minus.infant').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus infantseat':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInSeatCount').val();
+              value = parseInt(value) + 1;
+              $('#infantInSeatCount').val(value);
+              $('.minus.infantseat').removeClass("disabledbutton");
+            }
+          })
+          break;
+      }
+    });
+  });
+</script>

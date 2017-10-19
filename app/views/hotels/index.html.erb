@@ -8,31 +8,39 @@
       <%= date_field_tag :date, nil, {id: "date_check_in", class: "date"} %>
     </div>
     <div class="dropdown" id="hotel_dropdown">
-      <p>1 Room, 1 Guest</p>
+      <p id="total_count_hotel">1 Room, 1 Guest</p>
       <div class="dropdown-content" id='hotel_dropdown_content'>
         <div>
           <%= label_tag "Room: " %>
         </div>
         <div>
-          <%= number_field_tag :room, 1, {id: "room"} %>
+          <%= number_field_tag :room, 1, {id: "room_count", disabled: "disabled"} %>
+          <div class="minus room_count">-</div>
+          <div class="plus room_count">+</div>
         </div>
         <div>
           <%= label_tag "Adult: " %>
         </div>
         <div>
-          <%= number_field_tag :adultCount, 1, {id: "adultCount_hotel"} %>
+          <%= number_field_tag :adultCount, 1, {id: "adultCount_hotel", disabled: "disabled"} %>
+          <div class="minus adultCount_hotel">-</div>
+          <div class="plus adultCount_hotel">+</div>
         </div>
         <div>
           <%= label_tag "Child(3-17): " %>
         </div>
         <div>
-          <%= number_field_tag :childCount, 0, {id: "childCount_hotel"} %>
+          <%= number_field_tag :childCount, 0, {id: "childCount_hotel", disabled: "disabled"} %>
+          <div class="minus childCount_hotel">-</div>
+          <div class="plus childCount_hotel">+</div>
         </div>
         <div>
           <%= label_tag "Infant(0-2): " %>
         </div>
         <div>
-          <%= number_field_tag :infantInLapCount, 0, {id: "infantInLapCount_hotel"} %>
+          <%= number_field_tag :infantInLapCount, 0, {id: "infantInLapCount_hotel", disabled: "disabled"} %>
+          <div class="minus infantInLapCount_hotel">-</div>
+          <div class="plus infantInLapCount_hotel">+</div>
         </div>
       </div>
     </div>
@@ -54,3 +62,295 @@
 
 
 
+<script>
+  $(document).ready(function() {
+    if ($('#room_count').val() == 1){
+      $(".minus.room_count").addClass("disabledbutton");
+    } else {
+      $('.minus.room_count').removeClass("disabledbutton")
+    };
+    if ($('#adultCount_hotel').val() == 1){
+      $(".minus.adultCount_hotel").addClass("disabledbutton");
+    } else {
+      $('.minus.adultCount_hotel').removeClass("disabledbutton")
+    };
+    if ($('#childCount_hotel').val() == 0){
+      $(".minus.childCount_hotel").addClass("disabledbutton");
+    } else {
+      $('.minus.childCount_hotel').removeClass("disabledbutton")
+    };
+    if ($('#infantInLapCount_hotel').val() == 0){
+      $(".minus.infantInLapCount_hotel").addClass("disabledbutton");
+    } else {
+      $('.minus.infantInLapCount_hotel').removeClass("disabledbutton")
+    };
+    $('.minus').click(function(e) {
+      jsLang = $(this).attr('class')
+      switch (jsLang) {
+        case 'minus room_count':
+          $.ajax({
+            success: function(data) {
+              value = $('#room_count').val();
+              value = parseInt(value) - 1;
+              $('#room_count').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_room -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_room -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              if (total_room == 1){
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+                $('.minus.room_count').addClass("disabledbutton");
+              }
+            }
+          })
+          break;
+        case 'minus adultCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#adultCount_hotel').val();
+              value = parseInt(value) - 1;
+              $('#adultCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              if (value == 1){
+                $('.minus.adultCount_hotel').addClass("disabledbutton");
+              }
+              if (total_guest == 1){
+                if (total_room == 1) {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                }
+              }
+            }
+          })
+          break;
+        case 'minus childCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#childCount_hotel').val();
+              value = parseInt(value) - 1;
+              $('#childCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              if (value == 0){
+                $('.minus.childCount_hotel').addClass("disabledbutton");
+              }
+              if (total_guest == 1){
+                if (total_room == 1) {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                }
+              }
+            }
+          })
+          break;
+        case 'minus infantInLapCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInLapCount_hotel').val();
+              value = parseInt(value) - 1;
+              $('#infantInLapCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest -= 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              if (value == 0){
+                $('.minus.infantInLapCount_hotel').addClass("disabledbutton");
+              }
+              if (total_guest == 1){
+                if (total_room == 1) {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                }
+              }
+            }
+          })
+          break;
+      }
+    }),
+    $('.plus').click(function(e) {
+      jsLang = $(this).attr('class')
+      switch (jsLang) {
+        case 'plus room_count':
+          $.ajax({
+            success: function(data) {
+              value = $('#room_count').val();
+              value = parseInt(value) + 1;
+              $('#room_count').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_room += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_room += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guest");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              $('.minus.room_count').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus adultCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#adultCount_hotel').val();
+              value = parseInt(value) + 1;
+              $('#adultCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              $('.minus.adultCount_hotel').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus childCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#childCount_hotel').val();
+              value = parseInt(value) + 1;
+              $('#childCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              $('.minus.childCount_hotel').removeClass("disabledbutton");
+            }
+          })
+          break;
+        case 'plus infantInLapCount_hotel':
+          $.ajax({
+            success: function(data) {
+              value = $('#infantInLapCount_hotel').val();
+              value = parseInt(value) + 1;
+              $('#infantInLapCount_hotel').val(value);
+              total_room = parseInt($('#total_count_hotel').text().slice(0, -9));
+              if (total_room == 1){
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Room,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Room, "+total_guest+" Guests");
+                }
+              } else {
+                total_guest = parseInt($('#total_count_hotel').text().replace(total_room+" Rooms,", ""));
+                total_guest += 1;
+                if (total_guest == 1){
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                } else {
+                  $('#total_count_hotel').text(total_room+" Rooms, "+total_guest+" Guests");
+                }
+              }
+              $('.minus.infantInLapCount_hotel').removeClass("disabledbutton");
+            }
+          })
+          break;
+      }
+    });
+  });
+</script>
