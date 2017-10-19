@@ -45,7 +45,7 @@ ActiveRecord::Base.transaction do
     hotel['description'] = Faker::Hipster.sentence
     hotel['city'] = city.sample
     hotel['country'] = country.sample
-    hotel['user_id'] = 2
+    hotel['user_id'] = 5
     hotel['price'] = rand(10..100)
     hotel['rating'] = rand(1..5)
     hotel['hotel_name'] = hotels[i]
