@@ -15,24 +15,32 @@
         </div>
         <div>
           <%= number_field_tag :room, 1, {id: "room"} %>
+          <div class="minus">-</div>
+          <div class="plus">+</div>
         </div>
         <div>
           <%= label_tag "Adult: " %>
         </div>
         <div>
           <%= number_field_tag :adultCount, 1, {id: "adultCount_hotel"} %>
+          <div class="minus">-</div>
+          <div class="plus">+</div>
         </div>
         <div>
           <%= label_tag "Child(3-17): " %>
         </div>
         <div>
           <%= number_field_tag :childCount, 0, {id: "childCount_hotel"} %>
+          <div class="minus">-</div>
+          <div class="plus">+</div>
         </div>
         <div>
           <%= label_tag "Infant(0-2): " %>
         </div>
         <div>
           <%= number_field_tag :infantInLapCount, 0, {id: "infantInLapCount_hotel"} %>
+          <div class="minus">-</div>
+          <div class="plus">+</div>
         </div>
       </div>
     </div>

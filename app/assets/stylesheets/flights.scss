@@ -150,3 +150,39 @@ textarea:focus {
     border-color: #719ECE;
     box-shadow: 0 0 10px #719ECE;
 }
+
+.plus {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 3px solid green;
+  margin-left: 92px;
+  margin-top: -22px;
+  border-radius: 25px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: green;
+}
+
+.minus {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 3px solid green;
+  color: green;
+  margin-left: 70px;
+  color: green;
+  display: flex;
+  margin-top: -22px;
+  border-radius: 25px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.5;
+}
